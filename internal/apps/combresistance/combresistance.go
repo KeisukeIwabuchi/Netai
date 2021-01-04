@@ -2,8 +2,8 @@
 package combresistance
 
 // SeriesCircuits is return combined resistance from series circuits case.
-func SeriesCircuits(resistance ...float32) float32 {
-	var sum float32
+func SeriesCircuits(resistance ...float64) float64 {
+	var sum float64
 
 	for _, value := range resistance {
 		sum += value
@@ -13,8 +13,8 @@ func SeriesCircuits(resistance ...float32) float32 {
 }
 
 // ParallelCircuits is return combined resistance from parallel circuits.
-func ParallelCircuits(resistance ...float32) float32 {
-	var sum float32
+func ParallelCircuits(resistance ...float64) float64 {
+	var sum float64
 
 	for _, value := range resistance {
 		if value <= 0 {
