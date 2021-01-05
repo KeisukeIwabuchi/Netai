@@ -5,4 +5,52 @@
 </html>
 <body>
     <h1>{{.data}}</h1>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/109/three.min.js"></script>
+    <script>
+        window.addEventListener('load', init);
+        function init() {
+            // レンダラーを作成
+            const renderer = new THREE.WebGLRenderer({
+                canvas: document.querySelector('#three-canvas')
+            });
+            renderer.setSize( window.innerWidth, window.innerHeight );
+            renderer.setClearColor(0x000000, 1.0);
+            // saeneを作成
+            const scene = new THREE.Scene();
+            // cameraを作成
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 1, 1000);
+            camera.position.set(0, 0, 20);
+            // geometry(3Dオブジェクトの形状)を設定
+            const geometry = new THREE.BoxGeometry(10, 10, 10);
+            // material(オブジェクトのテクスチャ)を設定
+            const material = new THREE.MeshNormalMaterial();
+            // geometryとmateriaからmeshを作成
+            const cube = new THREE.Mesh(geometry, material);
+            scene.add(cube);
+            // 環境光源を設定
+            const light = new THREE.AmbientLight(0xFFFFFF, 1.0);
+            scene.add(light);
+            // 平行光源を設定
+            const directionalLight = new THREE.DirectionalLight(0xFFFFFF);
+            directionalLight.position.set(20, 20, 20);
+            // lightをに追加
+            scene.add(directionalLight);
+            function animate() {
+                requestAnimationFrame( animate );
+                //cubeを回転させる
+                cube.rotation.x += 0.01;
+                cube.rotation.y += 0.01;
+                renderer.render( scene, camera );
+            };
+            animate();
+            function onResize() {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            }
+            window.addEventListener('resize', onResize, false);
+        }
+        
+    </script>
+    <canvas id="three-canvas"></canvas>
 </body>
