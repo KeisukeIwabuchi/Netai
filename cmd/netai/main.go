@@ -2,15 +2,23 @@ package main
 
 import (
 	"fmt"
-	"net/http"
+
+	gin "github.com/gin-gonic/gin"
 )
 
 func main() {
-	fmt.Println("寝たい")
+	message := "寝たいです"
 
-	fs := http.FileServer(http.Dir("web"))
+	fmt.Println(message)
 
-	http.Handle("/", fs)
+	router := gin.Default()
+	router.LoadHTMLGlob("web/*.html")
 
-	http.ListenAndServe(":8888", nil)
+	router.GET("/", func(ctx *gin.Context) {
+		ctx.HTML(200, "index.html", gin.H{
+			"data": message,
+		})
+	})
+
+	router.Run()
 }
